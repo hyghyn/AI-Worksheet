@@ -6,6 +6,7 @@
 
 | โปรเจค | คำอธิบาย | เทคโนโลยี |
 |--------|----------|-----------|
+| [602 - Animated Drawings](#602-animated-drawings) | แปลงภาพวาดให้เคลื่อนไหวได้ด้วย AI | Meta AI, PyTorch |
 | [604 - Hand Landmarks Detection](#604-hand-landmarks-detection-using-mediapipe) | ตรวจจับและติดตามจุดสำคัญบนมือแบบเรียลไทม์ | MediaPipe, OpenCV |
 | [605 - Object Detection](#605-object-detection-using-mediapipe) | ตรวจจับวัตถุด้วย EfficientDet Lite 0 | MediaPipe, OpenCV |
 | [606 - Image Segmentation](#606-image-segmentation-using-mediapipe) | แบ่งส่วนภาพด้วย DeepLab v3 | MediaPipe, OpenCV |
@@ -14,6 +15,35 @@
 | [609 - Asian Landmark Detection](#609-asian-landmark-detection) | จำแนกสถานที่ท่องเที่ยวในเอเชียจากภาพ | TensorFlow Hub |
 | [611 - AI Agent with LangChain](#611-ai-agent-with-langchain) | AI Agent ที่ค้นหาข้อมูลและสรุปเนื้อหาอัตโนมัติ | LangChain, OpenAI |
 | [612 - Tesseract OCR](#612-tesseract-ocr) | แปลงข้อความในภาพเป็นข้อความดิจิทัล | Tesseract OCR |
+
+---
+
+## 602-animated-drawings
+
+![Animated Drawings](https://img.shields.io/badge/Meta%20AI-Animated%20Drawings-blue)
+![Python](https://img.shields.io/badge/Python-3.8.13-green)
+
+แปลงภาพวาดหรือภาพการ์ตูนให้เคลื่อนไหวได้ด้วย AI จาก Meta AI (Facebook Research) สามารถสร้างแอนิเมชั่นจากภาพวาด 2D และส่งออกเป็นวิดีโอหรือ GIF
+
+**ฟีเจอร์:**
+- ✅ แปลงภาพวาดให้เคลื่อนไหวได้อัตโนมัติ
+- ✅ รองรับการแสดงแอนิเมชั่นแบบ Interactive
+- ✅ ส่งออกเป็นไฟล์ MP4 หรือ GIF
+- ✅ ใช้ AI ตรวจจับโครงสร้างตัวละคร
+- ✅ รองรับท่าทางที่หลากหลาย (เดิน, เต้น, กระโดด)
+
+**การใช้งาน:**
+```python
+from animated_drawings import render
+render.start('./examples/config/mvc/interactive_window_example.yaml')
+```
+
+**ข้อกำหนด:**
+- Python 3.8.13 เท่านั้น
+- ภาพวาดควรมีพื้นหลังชัดเจน
+- รองรับรูปแบบ: PNG, JPG, JPEG
+
+[📖 ดูรายละเอียดเพิ่มเติม](602-animated-drawings/README.md)
 
 ---
 
@@ -197,6 +227,13 @@ agent_executor.invoke({"input": prompt})
 ### ติดตั้ง Dependencies พื้นฐาน
 
 ```bash
+# สำหรับโปรเจค Animated Drawings (602)
+conda create --name animated_drawings python=3.8.13
+conda activate animated_drawings
+git clone https://github.com/facebookresearch/AnimatedDrawings.git
+cd AnimatedDrawings
+pip install -e .
+
 # สำหรับโปรเจค MediaPipe (604-608)
 pip install opencv-python mediapipe numpy
 
@@ -247,7 +284,10 @@ Repository นี้มีการตั้งค่า `.gitignore` เพื�
 
 ## 🎯 กลุ่มโปรเจคตามประเภท
 
-### 🎥 Computer Vision (MediaPipe)
+### � Animation & Graphics
+- 602 - Animated Drawings (Meta AI)
+
+### �🎥 Computer Vision (MediaPipe)
 - 604 - Hand Landmarks Detection
 - 605 - Object Detection  
 - 606 - Image Segmentation
@@ -275,6 +315,8 @@ cd AI-Worksheet
 
 2. **เลือกโปรเจคที่ต้องการ:**
 ```bash
+cd 602-animated-drawings
+# หรือ
 cd 604-hand-landmarks-detection-using-mediapipe
 ```
 
