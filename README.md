@@ -15,6 +15,11 @@
 | [609 - Asian Landmark Detection](#609-asian-landmark-detection) | จำแนกสถานที่ท่องเที่ยวในเอเชียจากภาพ | TensorFlow Hub |
 | [611 - AI Agent with LangChain](#611-ai-agent-with-langchain) | TikTok Script Generator + AI Agent อัตโนมัติ | LangChain, OpenAI |
 | [612 - Tesseract OCR](#612-tesseract-ocr) | แปลงข้อความในภาพเป็นข้อความดิจิทัล | Tesseract OCR |
+| [615 - Monster Attack Bot](#615-monster-attack-bot) | บอทอัตโนมัติสำหรับคลิกโจมตีมอนสเตอร์ในเกม | PyAutoGUI, Keyboard |
+| [622 - Generate Text with ChatGPT](#622-generate-text-with-chatgpt) | สร้างข้อความด้วย ChatGPT API (GPT-4o-mini) | OpenAI API |
+| [623 - Generate Image with ChatGPT](#623-generate-image-with-chatgpt-dall-e-3) | สร้างภาพด้วย DALL-E 3 จาก Text-to-Image | OpenAI DALL-E 3 |
+| [624 - LINE Chatbot + Document](#624-line-chatbot-with-chatgpt-and-document) | LINE Bot ที่ตอบคำถามจากเอกสาร | OpenAI Assistant, LINE |
+| [625 - LINE Chatbot + Database](#625-line-chatbot-with-chatgpt-and-database) | LINE Bot ที่ query ฐานข้อมูลด้วย Natural Language | OpenAI, LINE, MySQL |
 
 ---
 
@@ -230,6 +235,209 @@ agent_executor.invoke({"input": "Weather in Bangkok today"})
 
 ---
 
+## 615-monster-attack-bot
+
+![PyAutoGUI](https://img.shields.io/badge/PyAutoGUI-Automation-green)
+![Keyboard](https://img.shields.io/badge/Keyboard-Control-orange)
+
+บอทอัตโนมัติสำหรับการคลิกและโจมตีมอนสเตอร์ในเกม โดยใช้การตรวจจับภาพหน้าจอและคลิกเมาส์อัตโนมัติ เหมาะสำหรับ idle games และ clicker games
+
+**ฟีเจอร์:**
+- ✅ ตรวจจับภาพมอนสเตอร์บนหน้าจอแบบเรียลไทม์
+- ✅ คลิกเมาส์อัตโนมัติเมื่อพบเป้าหมาย
+- ✅ กำหนดพื้นที่การค้นหาได้ (Region of Interest)
+- ✅ ปรับระดับความแม่นยำได้ (Confidence Level)
+- ✅ หยุดการทำงานได้ด้วยการกดปุ่ม 'Q'
+
+**การใช้งาน:**
+```python
+# เตรียมภาพ images.jpg และรันโปรแกรม
+python 615.py
+# กด 'Q' เพื่อหยุด
+```
+
+**เทคนิค:**
+- ใช้ `pyautogui.locateCenterOnScreen()` ค้นหาภาพ
+- ตั้งค่า `region=(0, 0, 1920, 1080)` จำกัดพื้นที่
+- ปรับ `confidence=0.70` สำหรับความแม่นยำ
+
+[📖 ดูรายละเอียดเพิ่มเติม](615-monster-attack-bot/README.md)
+
+---
+
+## 622-generate-text-with-chatgpt
+
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-green)
+![API](https://img.shields.io/badge/API-Integration-orange)
+
+สร้างข้อความอัตโนมัติด้วย ChatGPT API โดยใช้ GPT-4o-mini สำหรับการสนทนาและตอบคำถามภาษาไทย มีราคาถูกและประสิทธิภาพสูง
+
+**ฟีเจอร์:**
+- ✅ เชื่อมต่อกับ OpenAI API (GPT-4o-mini)
+- ✅ รองรับภาษาไทยเต็มรูปแบบ
+- ✅ กำหนด System Prompt ได้
+- ✅ ปรับแต่ง Parameters (temperature, n, stop)
+- ✅ ใช้งานง่าย เหมาะสำหรับผู้เริ่มต้น
+
+**การใช้งาน:**
+```python
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "คุณคือนักปรัญญา"},
+        {"role": "user", "content": "ไก่ย่างห้าดาวคืออะไร?"}
+    ]
+)
+print(response.choices[0].message.content)
+```
+
+**Use Cases:**
+- Chatbot - ระบบตอบคำถามอัตโนมัติ
+- แปลภาษา - แปลเอกสารภาษาต่างๆ
+- สรุปข้อความ - สรุปบทความหรือเอกสาร
+- เขียนเนื้อหา - สร้าง content marketing
+
+**ราคา:** $0.150 / 1M input tokens, $0.600 / 1M output tokens
+
+[📖 ดูรายละเอียดเพิ่มเติม](622-generate-text-with-chatgpt/README.md)
+
+---
+
+## 623-generate-image-with-chatgpt-dall-e-3
+
+![OpenAI](https://img.shields.io/badge/OpenAI-DALL--E--3-green)
+![Image Generation](https://img.shields.io/badge/Image-Generation-orange)
+
+สร้างภาพด้วย AI โดยใช้ DALL-E 3 จาก OpenAI สามารถสร้างภาพจากคำอธิบายข้อความ (Text-to-Image) ได้อย่างมีคุณภาพสูง รองรับภาษาไทย
+
+**ฟีเจอร์:**
+- ✅ สร้างภาพจากคำอธิบายข้อความ (Text-to-Image)
+- ✅ ใช้โมเดล DALL-E 3 คุณภาพสูง
+- ✅ รองรับภาษาไทยและภาษาอังกฤษ
+- ✅ ดาวน์โหลดภาพอัตโนมัติ
+- ✅ ปรับขนาดภาพได้ (1024x1024, 1792x1024, 1024x1792)
+- ✅ เลือกคุณภาพได้ (standard, hd)
+
+**การใช้งาน:**
+```python
+response = client.images.generate(
+    model="dall-e-3",
+    prompt="a cute dog and a cat playing together in a garden, digital art",
+    size="1024x1024",
+    quality="standard",
+    n=1
+)
+urllib.request.urlretrieve(response.data[0].url, "output_image.png")
+```
+
+**Use Cases:**
+- Content Creation - สร้างภาพประกอบบทความ
+- Social Media - สร้างภาพโพสต์ Instagram, Facebook
+- Marketing - สร้างภาพโฆษณา Banner
+- Product Design - Mockup ผลิตภัณฑ์
+- Art & Illustration - สร้างงานศิลปะดิจิทัล
+
+**ราคา:** $0.040-0.120 ต่อภาพ (ขึ้นกับขนาดและคุณภาพ)
+
+[📖 ดูรายละเอียดเพิ่มเติม](623-generate-image-with-chatgpt/README.md)
+
+---
+
+## 624-line-chatbot-with-chatgpt-and-document
+
+![OpenAI](https://img.shields.io/badge/OpenAI-Assistant-green)
+![LINE](https://img.shields.io/badge/LINE-Bot-00C300)
+![Flask](https://img.shields.io/badge/Flask-Webhook-orange)
+
+LINE Chatbot ที่เชื่อมต่อกับ OpenAI Assistant API สามารถตอบคำถามจากเอกสารและข้อมูลที่ upload ไว้ พร้อมระบบจดจำบทสนทนา
+
+**ฟีเจอร์:**
+- ✅ LINE Chatbot แบบ Real-time
+- ✅ เชื่อมต่อกับ OpenAI Assistant API
+- ✅ ค้นหาข้อมูลจากเอกสารที่ upload ไว้ (File Search)
+- ✅ จดจำบริบทการสนทนา (Thread Management)
+- ✅ ตอบคำถามภาษาไทยได้เป็นธรรมชาติ
+- ✅ ใช้ Flask เป็น Webhook Server
+
+**โครงสร้างระบบ:**
+```
+User (LINE) → Webhook (Flask) → OpenAI Assistant → LINE Response
+                                     ↓
+                               Documents (File Search)
+```
+
+**การติดตั้ง:**
+```bash
+pip install openai flask line-bot-sdk
+```
+
+**การตั้งค่า:**
+1. สร้าง OpenAI Assistant และ upload เอกสาร
+2. สร้าง LINE Messaging API Channel
+3. ตั้งค่า Webhook URL
+4. Deploy บน Heroku/Railway/Render
+
+**Use Cases:**
+- Customer Support Bot - ตอบคำถามจาก FAQ
+- Document Q&A - ค้นหาข้อมูลในเอกสาร
+- Knowledge Base - ฐานความรู้องค์กร
+- Educational Bot - ตอบคำถามจากตำรา
+
+[📖 ดูรายละเอียดเพิ่มเติม](624-line-chatbot-with-chatgpt-and-document/README.md)
+
+---
+
+## 625-line-chatbot-with-chatgpt-and-database
+
+![OpenAI](https://img.shields.io/badge/OpenAI-Assistant-green)
+![LINE](https://img.shields.io/badge/LINE-Bot-00C300)
+![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
+
+LINE Chatbot ที่เชื่อมต่อกับ OpenAI Assistant และฐานข้อมูล MySQL สามารถตอบคำถามจากข้อมูลในฐานข้อมูล (Database Query) แบบ Natural Language
+
+**ฟีเจอร์:**
+- ✅ LINE Chatbot แบบ Real-time
+- ✅ เชื่อมต่อกับ OpenAI Assistant API
+- ✅ Query ฐานข้อมูล MySQL ด้วย Natural Language
+- ✅ แปลงคำถามเป็น SQL Query อัตโนมัติ
+- ✅ รองรับ Chinook Database (Music Store)
+- ✅ จดจำบริบทการสนทนา
+
+**โครงสร้างระบบ:**
+```
+User Query → OpenAI Assistant → SQL Generation → MySQL Query → Results → User
+```
+
+**ตัวอย่างการใช้งาน:**
+```
+คำถาม: "มีศิลปินทั้งหมดกี่คน?"
+SQL: SELECT COUNT(*) FROM Artist;
+คำตอบ: มีศิลปินทั้งหมด 275 คน
+
+คำถาม: "เพลงของ AC/DC มีอะไรบ้าง?"
+SQL: SELECT t.Name FROM Track t 
+     JOIN Album a ON t.AlbumId = a.AlbumId
+     WHERE a.ArtistId = (SELECT ArtistId FROM Artist WHERE Name = 'AC/DC');
+คำตอบ: For Those About To Rock, Put The Finger On You, ...
+```
+
+**Database Schema:**
+- Album, Artist, Track (เพลงและศิลปิน)
+- Customer, Invoice (ลูกค้าและการขาย)
+- Employee (พนักงาน)
+
+**Use Cases:**
+- E-commerce Analytics - วิเคราะห์ยอดขาย
+- Customer Service - ตอบคำถามเกี่ยวกับสินค้า/คำสั่งซื้อ
+- Business Intelligence - รายงานข้อมูลธุรกิจ
+- Inventory Management - ตรวจสอบสต็อกสินค้า
+
+**หมายเหตุ:** โปรเจคนี้อยู่ระหว่างการพัฒนา ปัจจุบันมีเพียงไฟล์ `Chinook_MySql.sql` สำหรับ setup ฐานข้อมูล
+
+[📖 ดูรายละเอียดเพิ่มเติม](625-line-chatbot-with-chatgpt-and-database/README.md)
+
+---
+
 ## 🛠️ การติดตั้ง
 
 ### ติดตั้ง Dependencies พื้นฐาน
@@ -254,6 +462,17 @@ pip install langchain langchain-openai langchain-community beautifulsoup4 reques
 # สำหรับโปรเจค Tesseract OCR (612)
 pip install pytesseract pillow
 # + ติดตั้ง Tesseract OCR แยกต่างหาก
+
+# สำหรับโปรเจค Monster Attack Bot (615)
+pip install pyautogui keyboard pillow
+
+# สำหรับโปรเจค ChatGPT Text/Image (622, 623)
+pip install openai
+
+# สำหรับโปรเจค LINE Chatbot (624, 625)
+pip install openai flask line-bot-sdk
+# สำหรับโปรเจค 625 เพิ่มเติม:
+pip install mysql-connector-python
 ```
 
 ### ดาวน์โหลดไฟล์โมเดล
@@ -283,10 +502,21 @@ Repository นี้มีการตั้งค่า `.gitignore` เพื�
 - Python cache (`__pycache__`)
 
 ### API Keys
-โปรเจค 611 (LangChain) ต้องใช้ OpenAI API Key:
-1. สร้างไฟล์ `.env` ในโฟลเดอร์ `611-made-an-ai-agent-with-langchain/`
-2. เพิ่ม: `OPENAI_API_KEY=your_api_key_here`
-3. **ห้าม** commit ไฟล์ `.env` ขึ้น Git
+โปรเจค 611, 622, 623, 624, 625 ต้องใช้ API Keys:
+
+**OpenAI API Key:**
+- โปรเจค 611 (LangChain): สร้างไฟล์ `.env` และเพิ่ม `OPENAI_API_KEY=your_api_key_here`
+- โปรเจค 622 (Text Generation): ตั้งค่าใน code หรือใช้ environment variable
+- โปรเจค 623 (Image Generation): ตั้งค่าใน code หรือใช้ environment variable
+- โปรเจค 624, 625 (LINE Bot): ตั้งค่าใน code
+
+**LINE Messaging API:**
+- โปรเจค 624, 625: ต้องมี Channel Secret และ Channel Access Token จาก LINE Developers Console
+
+**⚠️ ข้อควรระวัง:**
+- **ห้าม** commit ไฟล์ `.env` หรือ API Keys ขึ้น Git
+- ใช้ `.gitignore` เพื่อป้องกัน
+- ใช้ Environment Variables สำหรับ Production
 
 ---
 
@@ -310,6 +540,15 @@ Repository นี้มีการตั้งค่า `.gitignore` เพื�
 
 ### 📄 OCR
 - 612 - Tesseract OCR (Optical Character Recognition)
+
+### 🎮 Automation & Bot
+- 615 - Monster Attack Bot (PyAutoGUI)
+
+### 💬 Chatbot & Conversational AI
+- 622 - Generate Text with ChatGPT (OpenAI GPT-4o-mini)
+- 623 - Generate Image with DALL-E 3 (Text-to-Image)
+- 624 - LINE Chatbot with Document Search (OpenAI Assistant)
+- 625 - LINE Chatbot with Database Query (Natural Language to SQL)
 
 ---
 
@@ -369,4 +608,11 @@ python 604.py
 
 ---
 
-*อัพเดทล่าสุด: ธันวาคม 2025*" 
+*อัพเดทล่าสุด: 24 ธันวาคม 2025*
+
+**โปรเจคล่าสุด:**
+- ✨ 622 - Generate Text with ChatGPT (GPT-4o-mini)
+- ✨ 623 - Generate Image with DALL-E 3
+- ✨ 624 - LINE Chatbot with Document Search
+- ✨ 625 - LINE Chatbot with Database Query (กำลังพัฒนา)
+- ✨ 615 - Monster Attack Bot (Game Automation)" 
